@@ -1,4 +1,4 @@
-package site.stellaburgers.Config;
+package site.stellaburgers.config;
 
 import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;

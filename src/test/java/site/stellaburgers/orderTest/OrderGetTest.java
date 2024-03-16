@@ -1,4 +1,4 @@
-package site.stellaburgers.OrderTest;
+package site.stellaburgers.orderTest;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
@@ -6,10 +6,10 @@ import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import site.stellaburgers.Order.OrderCreate;
-import site.stellaburgers.Order.OrderStep;
-import site.stellaburgers.User.UserCreate;
-import site.stellaburgers.User.UserStep;
+import site.stellaburgers.order.OrderCreate;
+import site.stellaburgers.order.OrderStep;
+import site.stellaburgers.user.UserCreate;
+import site.stellaburgers.user.UserStep;
 
 import java.util.List;
 

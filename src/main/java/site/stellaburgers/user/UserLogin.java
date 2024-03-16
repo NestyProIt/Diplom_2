@@ -1,4 +1,4 @@
-package site.stellaburgers.User;
+package site.stellaburgers.user;
 
 public class UserLogin {
 

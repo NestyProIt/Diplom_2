@@ -1,4 +1,4 @@
-package site.stellaburgers.UserTest;
+package site.stellaburgers.userTest;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
@@ -6,8 +6,8 @@ import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import site.stellaburgers.User.UserCreate;
-import site.stellaburgers.User.UserStep;
+import site.stellaburgers.user.UserCreate;
+import site.stellaburgers.user.UserStep;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;

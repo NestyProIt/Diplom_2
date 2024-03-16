@@ -1,8 +1,8 @@
-package site.stellaburgers.Order;
+package site.stellaburgers.order;
 
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-import site.stellaburgers.Config.Config;
+import site.stellaburgers.config.Config;
 
 import static io.restassured.RestAssured.given;
 

@@ -1,4 +1,4 @@
-package site.stellaburgers.User;
+package site.stellaburgers.user;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

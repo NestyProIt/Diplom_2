@@ -1,4 +1,4 @@
-package site.stellaburgers.OrderTest;
+package site.stellaburgers.orderTest;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
@@ -6,20 +6,19 @@ import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import site.stellaburgers.Order.OrderCreate;
-import site.stellaburgers.Order.OrderStep;
-import site.stellaburgers.User.UserCreate;
-import site.stellaburgers.User.UserStep;
+import site.stellaburgers.order.OrderCreate;
+import site.stellaburgers.order.OrderStep;
+import site.stellaburgers.user.UserCreate;
+import site.stellaburgers.user.UserStep;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 
-
-public class OrderCreateWithOutTokenTest {
-
+public class OrderCreateWithTokenUserTest {
     List<String> invalidIngredients = new ArrayList<>();
     private OrderStep orderStep;
     private OrderCreate orderCreate;
@@ -40,31 +39,31 @@ public class OrderCreateWithOutTokenTest {
     }
 
     @Test
-    @DisplayName("Создание заказа с ингредиентами неавторизированным пользователем")
-    @Description("Успешное создание заказа при передаче валидного списка ингредиентов")
-    public void createOrderWithOutTokenUserWithValidIngredients() {
+    @DisplayName("Создание заказа с ингредиентами авторизированным пользователем")
+    @Description("Успешное создание заказа авторизированным пользователем при передаче валидного списка ингредиентов")
+    public void createOrderWithTokenUserWithValidIngredients() {
         //Получаем список ингредиентов
-        ValidatableResponse response = orderStep.getIngredientsOrder();
+        ValidatableResponse ingredientsResponse = orderStep.getIngredientsOrder();
         //Получаем id ингредиентов из ответа сервера
-        List<String> ingredients = response.extract().body().jsonPath().getList("data._id[0,1]");
+        List<String> ingredients = ingredientsResponse.extract().body().jsonPath().getList("data._id[0,1]");
         //Создаем заказ с заданными параметрами
         orderCreate.setIngredients(ingredients);
-        ValidatableResponse orderResponse = orderStep.orderCreateWithOutTokenUser(orderCreate);
+        ValidatableResponse orderResponse = orderStep.orderCreateWithTokenUser(accessTokenUser, orderCreate);
         //Проверяем, что статус код 200 и возвращается ожидаемое тело ответа
         orderResponse.assertThat()
                 .statusCode(200)
                 .and()
-                .body("success", equalTo(true));
+                .body("success", equalTo(true), "order.number", notNullValue());
     }
 
     @Test
-    @DisplayName("Создание заказа без ингредиентов неавторизированным пользователем")
-    @Description("Проверка невозможности создания заказа при передаче пустого списка ингредиентов")
-    public void createOrderWithOutTokenUserWithOutIngredients() {
+    @DisplayName("Создание заказа без ингредиентов авторизированным пользователем")
+    @Description("Проверка невозможности создания заказа авторизированным пользователем при передаче пустого списка ингредиентов")
+    public void createOrderWithTokenUserWithOutIngredients() {
         //Устанавливаем пустой список ингредиентов
         orderCreate.setIngredients(Collections.emptyList());
         //Создаем заказ с заданными параметрами
-        ValidatableResponse orderResponse = orderStep.orderCreateWithOutTokenUser(orderCreate);
+        ValidatableResponse orderResponse = orderStep.orderCreateWithTokenUser(accessTokenUser, orderCreate);
         //Проверяем, что статус код 400 и возвращается ожидаемое тело ответа
         orderResponse.assertThat()
                 .statusCode(400)
@@ -73,14 +72,14 @@ public class OrderCreateWithOutTokenTest {
     }
 
     @Test
-    @DisplayName("Создание заказа с невалидным хешем ингредиента неавторизированным пользователем")
-    @Description("Проверка невозможности создания заказа при передаче невалидного хеша ингредиента")
-    public void createOrderWithOutTokenUserWithInvalidHashIngredients() {
+    @DisplayName("Создание заказа с невалидным хешем ингредиента авторизированным пользователем")
+    @Description("Проверка невозможности создания заказа авторизированным пользователем при передаче невалидного хеша ингредиента")
+    public void createOrderWithTokenUserWithInvalidHashIngredients() {
         //Устанавливаем невалидный хеш ингредиента
         invalidIngredients.add("0");
         orderCreate.setIngredients(invalidIngredients);
         //Создаем заказ с заданными параметрами
-        ValidatableResponse orderResponse = orderStep.orderCreateWithOutTokenUser(orderCreate);
+        ValidatableResponse orderResponse = orderStep.orderCreateWithTokenUser(accessTokenUser, orderCreate);
         //Проверяем, что статус код 500
         orderResponse.assertThat()
                 .statusCode(500);
@@ -94,6 +93,4 @@ public class OrderCreateWithOutTokenTest {
 
     }
 }
-
-
 
